@@ -1,0 +1,12 @@
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Iniciando deploy remoto"
+    - ssh -p 2223 <USUARIO_SERVIDOR_PRODUCAO>@localhost 'rm -rf /var/www/html/*'
+    - rsync -avz -e "ssh -p 2223" --delete . <USUARIO_SERVIDOR_PRODUCAO>@localhost:/var/www/html
+    - echo "Deploy finalizado com sucesso"
+  only:
+    - main
